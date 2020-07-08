@@ -45,12 +45,14 @@ class ListFragment : Fragment() {
 //        navController.navigate(ListFragmentDirections.actionListFragmentToDetailsFragment())
 //        val navController = this.findNavController()
         viewModel.navigateToDetailsFragment.observe(this, Observer {
-            this.findNavController().navigate(
-                ListFragmentDirections
-                    .actionListFragmentToDetailsFragment()
-            )
+            if (it == true) {
+                this.findNavController().navigate(
+                    ListFragmentDirections
+                        .actionListFragmentToDetailsFragment()
+                )
+                viewModel.doneNavigating()
+            }
 //            navController.navigate(ListFragmentDirections.actionListFragmentToDetailsFragment())
-            viewModel.doneNavigating()
         })
 
         return binding.root
