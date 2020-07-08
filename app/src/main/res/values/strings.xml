@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Orange\'s Note</string>
+    <string name="details">Details</string>
+    <string name="list">List</string>
+    <string name="button_add">新记事</string>
+    <string name="label_list_fragment">List</string>
+    <string name="label_details_fragment">Details</string>
+</resources>
