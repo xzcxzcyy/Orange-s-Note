@@ -1,5 +1,6 @@
 package cloud.banson.orangeNote.list
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import cloud.banson.orangeNote.database.NoteDatabase
 import cloud.banson.orangeNote.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
+    @SuppressLint("FragmentLiveDataObserve")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,11 +40,16 @@ class ListFragment : Fragment() {
             ).get(ListViewModel::class.java)
 
         binding.viewModel = viewModel
-        binding.setLifecycleOwner(this)
-
-        binding.viewModel.navigateToDetailsFragment.observe(viewLifecycleOwner, Observer {
-            val navController = this.findNavController()
-            navController.navigate(ListFragmentDirections.actionListFragmentToDetailsFragment())
+        binding.lifecycleOwner = this
+//        val navController = this.findNavController()
+//        navController.navigate(ListFragmentDirections.actionListFragmentToDetailsFragment())
+//        val navController = this.findNavController()
+        viewModel.navigateToDetailsFragment.observe(this, Observer {
+            this.findNavController().navigate(
+                ListFragmentDirections
+                    .actionListFragmentToDetailsFragment()
+            )
+//            navController.navigate(ListFragmentDirections.actionListFragmentToDetailsFragment())
             viewModel.doneNavigating()
         })
 
