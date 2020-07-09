@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="cloud.banson.orangeNote.details.DetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +35,7 @@
             android:ems="10"
             android:hint="@string/details_edit_text_hint"
             android:inputType="textPersonName"
+            android:text="@={viewModel.title}"
             app:layout_constraintBaseline_toBaselineOf="@+id/textViewDetailsTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -59,6 +63,7 @@
             android:ems="10"
             android:gravity="start|top"
             android:inputType="textMultiLine"
+            android:text="@={viewModel.details}"
             app:layout_constraintBottom_toTopOf="@+id/buttonDetailsComplete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:onClick="@{()->viewModel.onCompleteButtonClicked()}"
             android:text="@string/details_complete_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

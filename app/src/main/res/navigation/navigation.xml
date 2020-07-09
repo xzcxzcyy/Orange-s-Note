@@ -19,5 +19,9 @@
         android:id="@+id/detailsFragment"
         android:name="cloud.banson.orangeNote.details.DetailsFragment"
         android:label="@string/label_details_fragment"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details" >
+        <action
+            android:id="@+id/action_detailsFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
 </navigation>
