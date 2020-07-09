@@ -53,6 +53,15 @@ class ListFragment : Fragment() {
             }
         })
 
+        val adapter = NoteAdapter()
+        binding.noteList.adapter = adapter
+
+        viewModel.noteBook.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
+
         return binding.root
     }
 }

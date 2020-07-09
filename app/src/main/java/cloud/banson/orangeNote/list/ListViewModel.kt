@@ -6,11 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import cloud.banson.orangeNote.database.Note
 import cloud.banson.orangeNote.database.NoteDatabaseDao
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 
-class ListViewModel(val database: NoteDatabaseDao, application: Application) :
+class ListViewModel(private val database: NoteDatabaseDao, application: Application) :
     AndroidViewModel(application) {
 
     private var viewModelJob = Job()
@@ -34,6 +32,15 @@ class ListViewModel(val database: NoteDatabaseDao, application: Application) :
     }
 
     fun onNoteAddClicked() {
+        val newNote = Note()
+        newNote.title = "sample_title"
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                database.insert(newNote)
+            }
+        }
+
         _navigateToDetailsFragment.value = true
     }
+
 }
