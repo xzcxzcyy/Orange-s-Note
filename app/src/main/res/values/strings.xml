@@ -4,5 +4,9 @@
     <string name="list">List</string>
     <string name="button_add">新记事</string>
     <string name="label_list_fragment">List</string>
-    <string name="label_details_fragment">Details</string>
+    <string name="label_details_fragment">编辑</string>
+    <string name="details_title_text">事件名：</string>
+    <string name="details_edit_text_hint">请输入...</string>
+    <string name="details_details_text">描述：</string>
+    <string name="details_complete_button">完成并保存</string>
 </resources>

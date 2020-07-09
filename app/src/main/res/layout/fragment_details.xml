@@ -3,20 +3,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textViewDetails"
+            android:id="@+id/textViewDetailsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/details"
-            android:textSize="35sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/details_title_text"
+            android:textColor="@android:color/primary_text_light"
+            android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextDetailsTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="@string/details_edit_text_hint"
+            android:inputType="textPersonName"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textViewDetailsTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textViewDetailsTitle" />
+
+        <TextView
+            android:id="@+id/textViewDetailsDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/details_details_text"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/primary_text_light"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewDetailsTitle"
+            app:layout_constraintStart_toStartOf="@+id/textViewDetailsTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDetailsTitle" />
+
+        <EditText
+            android:id="@+id/editTextDetailsDetails"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            app:layout_constraintBottom_toTopOf="@+id/buttonDetailsComplete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDetailsDetails" />
+
+        <Button
+            android:id="@+id/buttonDetailsComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/details_complete_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

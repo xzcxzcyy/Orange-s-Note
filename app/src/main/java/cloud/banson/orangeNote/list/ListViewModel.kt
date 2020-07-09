@@ -32,14 +32,13 @@ class ListViewModel(private val database: NoteDatabaseDao, application: Applicat
     }
 
     fun onNoteAddClicked() {
-        val newNote = Note()
+        /*val newNote = Note()
         newNote.title = "sample_title"
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 database.insert(newNote)
             }
-        }
-
+        }*/
         _navigateToDetailsFragment.value = true
     }
 

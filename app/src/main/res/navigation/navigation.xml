@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="cloud.banson.orangeNote.list.ListFragment"
-        android:label="@string/label_list_fragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_listFragment_to_detailsFragment"
