@@ -3,6 +3,7 @@ package cloud.banson.orangeNote.details
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import cloud.banson.orangeNote.database.Note
 import cloud.banson.orangeNote.database.NoteDatabaseDao
@@ -11,7 +12,7 @@ import kotlinx.coroutines.*
 class DetailsViewModel(
     private val database: NoteDatabaseDao,
     application: Application,
-    currentNote: Note
+    currentNoteId: Long
 ) : AndroidViewModel(application) {
     private var viewModelJob = Job()
 
@@ -23,11 +24,16 @@ class DetailsViewModel(
     }
 
     var noteBook = database.getAllNotes()
-    var title = MutableLiveData<String>(currentNote.title)
-    var details = MutableLiveData<String>(currentNote.details)
+    var title = MutableLiveData<String>()
+    var details = MutableLiveData<String>()
+    val currentNote = MediatorLiveData<Note>()
 
     private val _navigateToListFragment = MutableLiveData<Boolean>()
     private val _makeSnackBar = MutableLiveData<String>()
+
+    init {
+        currentNote.addSource(database.getNoteById(currentNoteId), currentNote::setValue)
+    }
 
     fun onCompleteButtonClicked() {
 //        val newNote = Note(title = this.title.value, )

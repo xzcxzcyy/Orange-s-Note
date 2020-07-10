@@ -9,13 +9,13 @@ import cloud.banson.orangeNote.database.NoteDatabaseDao
 class DetailsViewModelFactory(
     private val dataSource: NoteDatabaseDao,
     private val application: Application,
-    private val currentNote: Note
+    private val currentNoteId: Long
 ) : ViewModelProvider.Factory {
 
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailsViewModel::class.java)) {
-            return DetailsViewModel(dataSource, application, currentNote) as T
+            return DetailsViewModel(dataSource, application, currentNoteId) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
