@@ -45,7 +45,9 @@ class ListFragment : Fragment() {
             }
         })
 
-        val adapter = NoteAdapter()
+        val adapter = NoteAdapter(NoteListener { id: Long ->
+            viewModel.onItemClicked(id)
+        })
         binding.noteList.adapter = adapter
 
         viewModel.noteBook.observe(viewLifecycleOwner, Observer {

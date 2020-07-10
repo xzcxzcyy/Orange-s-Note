@@ -24,8 +24,10 @@ class DetailsViewModel(
     }
 
     var noteBook = database.getAllNotes()
-    var title = MutableLiveData<String>()
-    var details = MutableLiveData<String>()
+
+//    var title = MutableLiveData<String>()
+//    var details = MutableLiveData<String>()
+
     val currentNote = MediatorLiveData<Note>()
 
     private val _navigateToListFragment = MutableLiveData<Boolean>()
@@ -36,24 +38,17 @@ class DetailsViewModel(
     }
 
     fun onCompleteButtonClicked() {
-//        val newNote = Note(title = this.title.value, )
-//        Log.d("TestDataCapturing", "onCompleteButtonClicked: " + title.value)
-//        Log.d("TestDataCapturing", "onCompleteButtonClicked: " + details.value)
 
-        if (title.value == null) {
+        if (currentNote.value?.title == "") {
             _makeSnackBar.value = "事件名不能为空！"
         } else {
-            if (details.value == null) {
-                details.value = ""
+            if (currentNote.value?.details == null) {
+                currentNote.value?.details = ""
             }
-
-            val newTitle = this.title.value
-            val newDetails = this.details.value
-            val newNote = Note(title = newTitle!!, details = newDetails!!)
 
             uiScope.launch {
                 withContext(Dispatchers.IO) {
-                    database.insert(newNote)
+                    database.update(currentNote.value!!)
                 }
             }
 

@@ -47,33 +47,20 @@ class ListViewModel(private val database: NoteDatabaseDao, application: Applicat
     }
 
     fun onNoteAddClicked() {
-        /*val newNote = Note()
-        newNote.title = "sample_title"
-        uiScope.launch {
-            withContext(Dispatchers.IO) {
-                database.insert(newNote)
-            }
-        }*/
-
         uiScope.launch {
             val passingNote = Note()
             passingNote.apply {
-                title = "123"
-                details = "456"
+                title = ""
+                details = ""
             }
-
             insert(passingNote)
-
             currentNote.value = getCurrentNote()
-
-            currentNote.value!!
-
-            Log.d("ListViewModelTag", "onNoteAddClicked: " + currentNote.value!!.id.toString())
             _navigateToDetailsFragment.value = currentNote.value!!.id
         }
-//        currentNote.value!!
-//        Log.d("ListViewModelTag", "onNoteAddClicked: " + passingNote.id.toString())
-//        _navigateToDetailsFragment.value = passingNote.id
+    }
+
+    fun onItemClicked(noteId: Long) {
+        _navigateToDetailsFragment.value = noteId
     }
 
 }
