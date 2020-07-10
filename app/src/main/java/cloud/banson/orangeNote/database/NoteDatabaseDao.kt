@@ -1,6 +1,7 @@
 package cloud.banson.orangeNote.database
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -25,4 +26,7 @@ interface NoteDatabaseDao {
 
     @Query("DELETE FROM note_table")
     fun clear()
+
+    @Query("SELECT * FROM note_table ORDER BY id DESC LIMIT 1")
+    fun getCurrentNote(): Note?
 }

@@ -36,10 +36,10 @@ class ListFragment : Fragment() {
         binding.lifecycleOwner = this
 
         viewModel.navigateToDetailsFragment.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
+            if (null != it) {
                 this.findNavController().navigate(
                     ListFragmentDirections
-                        .actionListFragmentToDetailsFragment()
+                        .actionListFragmentToDetailsFragment(it)
                 )
                 viewModel.doneNavigating()
             }

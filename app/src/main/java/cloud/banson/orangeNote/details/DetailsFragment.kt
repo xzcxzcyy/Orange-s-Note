@@ -10,9 +10,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import cloud.banson.orangeNote.R
+import cloud.banson.orangeNote.database.Note
 import cloud.banson.orangeNote.database.NoteDatabase
 import cloud.banson.orangeNote.databinding.FragmentDetailsBinding
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.*
 
 class DetailsFragment : Fragment() {
 
@@ -28,7 +30,20 @@ class DetailsFragment : Fragment() {
         )
         val application = requireNotNull(this.activity).application
         val dataSource = NoteDatabase.getInstance(application).noteDatabaseDao
-        val viewModelFactory = DetailsViewModelFactory(dataSource, application)
+
+        val fragmentJob = Job()
+        val uiScope = CoroutineScope(Dispatchers.Main + fragmentJob)
+
+        val arguments = DetailsFragmentArgs.fromBundle(requireArguments())
+        var currentNote = Note()
+
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                currentNote = dataSource.get(arguments.currentNoteId)!!
+            }
+        }
+
+        val viewModelFactory = DetailsViewModelFactory(dataSource, application, currentNote)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(DetailsViewModel::class.java)
 
         binding.viewModel = viewModel

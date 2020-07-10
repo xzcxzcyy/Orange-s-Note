@@ -8,8 +8,11 @@ import cloud.banson.orangeNote.database.Note
 import cloud.banson.orangeNote.database.NoteDatabaseDao
 import kotlinx.coroutines.*
 
-class DetailsViewModel(private val database: NoteDatabaseDao, application: Application) :
-    AndroidViewModel(application) {
+class DetailsViewModel(
+    private val database: NoteDatabaseDao,
+    application: Application,
+    currentNote: Note
+) : AndroidViewModel(application) {
     private var viewModelJob = Job()
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -20,8 +23,8 @@ class DetailsViewModel(private val database: NoteDatabaseDao, application: Appli
     }
 
     var noteBook = database.getAllNotes()
-    var title = MutableLiveData<String>()
-    var details = MutableLiveData<String>()
+    var title = MutableLiveData<String>(currentNote.title)
+    var details = MutableLiveData<String>(currentNote.details)
 
     private val _navigateToListFragment = MutableLiveData<Boolean>()
     private val _makeSnackBar = MutableLiveData<String>()

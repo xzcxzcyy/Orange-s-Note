@@ -1,6 +1,7 @@
 package cloud.banson.orangeNote.list
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,13 +23,27 @@ class ListViewModel(private val database: NoteDatabaseDao, application: Applicat
 
     var noteBook = database.getAllNotes()
 
-    private val _navigateToDetailsFragment = MutableLiveData<Boolean>()
+    var currentNote = MutableLiveData<Note>()
 
-    val navigateToDetailsFragment: LiveData<Boolean>
+    private val _navigateToDetailsFragment = MutableLiveData<Long>()
+
+    val navigateToDetailsFragment: LiveData<Long>
         get() = _navigateToDetailsFragment
 
     fun doneNavigating() {
-        _navigateToDetailsFragment.value = false
+        _navigateToDetailsFragment.value = null
+    }
+
+    private suspend fun insert(newNote: Note) {
+        withContext(Dispatchers.IO) {
+            database.insert(newNote)
+        }
+    }
+
+    private suspend fun getCurrentNote(): Note? {
+        return withContext(Dispatchers.IO) {
+            database.getCurrentNote()
+        }
     }
 
     fun onNoteAddClicked() {
@@ -39,7 +54,26 @@ class ListViewModel(private val database: NoteDatabaseDao, application: Applicat
                 database.insert(newNote)
             }
         }*/
-        _navigateToDetailsFragment.value = true
+
+        uiScope.launch {
+            val passingNote = Note()
+            passingNote.apply {
+                title = "123"
+                details = "456"
+            }
+
+            insert(passingNote)
+
+            currentNote.value = getCurrentNote()
+
+            currentNote.value!!
+
+            Log.d("ListViewModelTag", "onNoteAddClicked: " + currentNote.value!!.id.toString())
+            _navigateToDetailsFragment.value = currentNote.value!!.id
+        }
+//        currentNote.value!!
+//        Log.d("ListViewModelTag", "onNoteAddClicked: " + passingNote.id.toString())
+//        _navigateToDetailsFragment.value = passingNote.id
     }
 
 }
