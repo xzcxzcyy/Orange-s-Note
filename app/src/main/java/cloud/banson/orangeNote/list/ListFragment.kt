@@ -134,12 +134,29 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
 
     override fun onMove(sourcePosition: Int, targetPosition: Int): Boolean {
         Log.d("ItemHelper", "onMove called: $sourcePosition to $targetPosition")
-        return true
+        if (noteList != null) {
+            val sourceObj = noteList?.getOrNull(sourcePosition)
+            noteList?.add(targetPosition, sourceObj!!)
+
+            if (sourcePosition > targetPosition) {
+                noteList?.removeAt(sourcePosition + 1)
+            } else if (sourcePosition < targetPosition) {
+                noteList?.removeAt(sourcePosition)
+            }
+
+            updateNow(noteList, adapter)
+            //TODO("Access database by coroutine.")
+            //TODO("noteList is not really sorted (sortedBy()), which would cause issue when interacting")
+            //TODO("Dragging is not usable at present.")
+            return true
+        }
+        return false
     }
 
     override fun onSwipe(itemPosition: Int) {
         Log.d("ItemHelper", "onSwipe called")
         noteList?.removeAt(itemPosition)
         updateNow(noteList, adapter)
+        //TODO("Access database by coroutine.")
     }
 }
