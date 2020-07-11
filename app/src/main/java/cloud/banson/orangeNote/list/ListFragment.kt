@@ -1,6 +1,7 @@
 package cloud.banson.orangeNote.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -12,7 +13,7 @@ import cloud.banson.orangeNote.database.Note
 import cloud.banson.orangeNote.database.NoteDatabase
 import cloud.banson.orangeNote.databinding.FragmentListBinding
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), OnItemTouchCallBackListener {
     companion object {
         private const val sortByTitle = 0
         private const val sortByTitleDescend = 1
@@ -66,6 +67,11 @@ class ListFragment : Fragment() {
         })
 
         setHasOptionsMenu(true)
+
+        val itemHelperCallback = ItemHelperCallback(this)
+        val itemHelper = ItemHelper(itemHelperCallback)
+        val recyclerView = binding.noteList
+        itemHelper.attachToRecyclerView(recyclerView)
 
         return binding.root
     }
@@ -124,5 +130,14 @@ class ListFragment : Fragment() {
             else -> super.onOptionsItemSelected(item)
 
         }
+    }
+
+    override fun onMove(sourcePosition: Int, targetPosition: Int): Boolean {
+        Log.d("ItemHelper", "onMove called: $sourcePosition to $targetPosition")
+        return true
+    }
+
+    override fun onSwipe(itemPosition: Int) {
+        Log.d("ItemHelper", "onSwipe called")
     }
 }
