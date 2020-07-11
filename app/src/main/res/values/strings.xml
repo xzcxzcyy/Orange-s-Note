@@ -9,4 +9,8 @@
     <string name="details_edit_text_hint">请输入...</string>
     <string name="details_details_text">描述：</string>
     <string name="details_complete_button">完成并保存</string>
+    <string name="string_sort_time">最早</string>
+    <string name="string_sort_time_descend">最新</string>
+    <string name="string_sort_title">按字母升序</string>
+    <string name="string_sort_title_descend">按字母降序</string>
 </resources>
