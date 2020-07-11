@@ -21,7 +21,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
         private const val sortByTimeDescend = 3
     }
 
-    private var noteList: List<Note>? = null
+    private var noteList: MutableList<Note>? = null
     private var sortOption = sortByTimeDescend
     lateinit var adapter: NoteAdapter
 
@@ -62,7 +62,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
         binding.noteList.adapter = adapter
 
         viewModel.noteBook.observe(viewLifecycleOwner, Observer { newList ->
-            noteList = newList
+            noteList = newList as MutableList<Note>?
             updateNow(noteList, adapter)
         })
 
@@ -139,5 +139,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
 
     override fun onSwipe(itemPosition: Int) {
         Log.d("ItemHelper", "onSwipe called")
+        noteList?.removeAt(itemPosition)
+        updateNow(noteList, adapter)
     }
 }
