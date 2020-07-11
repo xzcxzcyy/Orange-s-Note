@@ -1,9 +1,7 @@
 package cloud.banson.orangeNote.list
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,6 +22,7 @@ class ListFragment : Fragment() {
 
     private var noteList: List<Note>? = null
     private var sortOption = sortByTimeDescend
+    lateinit var adapter: NoteAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +55,7 @@ class ListFragment : Fragment() {
             }
         })
 
-        val adapter = NoteAdapter(NoteListener { id: Long ->
+        adapter = NoteAdapter(NoteListener { id: Long ->
             viewModel.onItemClicked(id)
         })
         binding.noteList.adapter = adapter
@@ -65,6 +64,8 @@ class ListFragment : Fragment() {
             noteList = newList
             updateNow(noteList, adapter)
         })
+
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -85,4 +86,43 @@ class ListFragment : Fragment() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_sort, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.option_sortByTimeDescend -> {
+                item.isChecked = true
+                sortOption = sortByTimeDescend
+                updateNow(noteList, adapter)
+                true
+            }
+
+            R.id.option_sortByTime -> {
+                item.isChecked = true
+                sortOption = sortByTime
+                updateNow(noteList, adapter)
+                true
+            }
+
+            R.id.option_sortByTitleDescend -> {
+                item.isChecked = true
+                sortOption = sortByTitleDescend
+                updateNow(noteList, adapter)
+                true
+            }
+
+            R.id.option_sortByTitle -> {
+                item.isChecked = true
+                sortOption = sortByTitle
+                updateNow(noteList, adapter)
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+
+        }
+    }
 }

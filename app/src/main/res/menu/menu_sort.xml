@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/optionSortByTimeDescend"
+            android:id="@+id/option_sortByTimeDescend"
             android:checked="true"
             android:title="@string/string_sort_time_descend" />
         <item
