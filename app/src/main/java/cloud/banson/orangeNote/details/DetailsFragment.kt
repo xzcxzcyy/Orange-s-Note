@@ -1,10 +1,12 @@
 package cloud.banson.orangeNote.details
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -55,6 +57,9 @@ class DetailsFragment : Fragment() {
         binding.lifecycleOwner = this
         viewModel.navigateToListFragment.observe(viewLifecycleOwner, Observer {
             if (it == true) {
+                val imm =
+                    application.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view?.windowToken, 0)
                 this.findNavController()
                     .navigate(DetailsFragmentDirections.actionDetailsFragmentToListFragment())
                 viewModel.doneNavigating()

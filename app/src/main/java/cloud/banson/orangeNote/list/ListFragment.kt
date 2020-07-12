@@ -1,8 +1,10 @@
 package cloud.banson.orangeNote.list
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -58,7 +60,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
         binding.lifecycleOwner = this
 
         viewModel.navigateToDetailsFragment.observe(viewLifecycleOwner, Observer {
-            if (null != it) {
+            if (it != null) {
                 this.findNavController().navigate(
                     ListFragmentDirections
                         .actionListFragmentToDetailsFragment(it)
