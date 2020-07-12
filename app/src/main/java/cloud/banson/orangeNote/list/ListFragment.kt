@@ -19,6 +19,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
         private const val sortByTitleDescend = 1
         private const val sortByTime = 2
         private const val sortByTimeDescend = 3
+        private const val TAG = "ListFragment"
     }
 
     private var noteList: MutableList<Note>? = null
@@ -62,7 +63,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
         binding.noteList.adapter = adapter
 
         viewModel.noteBook.observe(viewLifecycleOwner, Observer { newList ->
-            noteList = newList as MutableList<Note>?
+            noteList = newList.toList() as MutableList<Note>
             updateNow(noteList, adapter)
         })
 
@@ -76,20 +77,29 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
         return binding.root
     }
 
-    private fun updateNow(newList: List<Note>?, adapter: NoteAdapter) {
+    private fun updateNow(newList: MutableList<Note>?, adapter: NoteAdapter) {
         newList?.let { thisList ->
-            adapter.submitList(thisList.getSorted())
+            thisList.getSorted()
+//            Log.d(TAG, "updateNow (1): " + noteList.toString())
+            adapter.submitList(thisList.toList())
+//            Log.d(TAG, "updateNow (2): " + noteList.toString())
         }
     }
 
-    private fun List<Note>.getSorted(): List<Note>? {
-        return when (sortOption) {
-            sortByTitle -> this.sortedBy { note -> note.title }
-            sortByTitleDescend -> this.sortedByDescending { note -> note.title }
-            sortByTime -> this.sortedBy { note -> note.time }
-            sortByTimeDescend -> this.sortedByDescending { note -> note.time }
-            else -> null
+    private fun MutableList<Note>.getSorted() {
+        when (sortOption) {
+            sortByTitle -> this.sortBy { note -> note.title }
+            sortByTitleDescend -> this.sortByDescending { note -> note.title }
+            sortByTime -> this.sortBy { note -> note.time }
+            sortByTimeDescend -> this.sortByDescending { note -> note.time }
         }
+        //return this
+    }
+
+    private fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
+        val temp = this[index1]
+        this[index1] = this[index2]
+        this[index2] = temp
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -110,6 +120,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
                 item.isChecked = true
                 sortOption = sortByTime
                 updateNow(noteList, adapter)
+//                Log.d("ListFragment", "onOptionsItemSelected: " + noteList.toString())
                 true
             }
 
@@ -135,19 +146,12 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
     override fun onMove(sourcePosition: Int, targetPosition: Int): Boolean {
         Log.d("ItemHelper", "onMove called: $sourcePosition to $targetPosition")
         if (noteList != null) {
-            val sourceObj = noteList?.getOrNull(sourcePosition)
-            noteList?.add(targetPosition, sourceObj!!)
 
-            if (sourcePosition > targetPosition) {
-                noteList?.removeAt(sourcePosition + 1)
-            } else if (sourcePosition < targetPosition) {
-                noteList?.removeAt(sourcePosition)
-            }
+            noteList!!.swap(sourcePosition, targetPosition)
 
-            updateNow(noteList, adapter)
-            //TODO("Access database by coroutine.")
-            //TODO("noteList is not really sorted (sortedBy()), which would cause issue when interacting")
-            //TODO("Dragging is not usable at present.")
+            adapter.submitList(noteList!!.toList())
+            //updateNow(noteList, adapter)
+            //TODO("Add sort-pattern CUSTOMIZED.")
             return true
         }
         return false

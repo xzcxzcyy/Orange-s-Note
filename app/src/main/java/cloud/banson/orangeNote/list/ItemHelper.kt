@@ -18,7 +18,6 @@ class ItemHelperCallback(private val onItemTouchCallbackListener: OnItemTouchCal
         viewHolder: RecyclerView.ViewHolder
     ): Int {
         val dragFlag = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-        //TODO: 检查 Kotlin 位运算的写法。
         val swipeFlag = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         return makeMovementFlags(dragFlag, swipeFlag)
     }
