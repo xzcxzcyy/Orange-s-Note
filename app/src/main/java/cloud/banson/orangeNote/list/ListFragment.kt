@@ -74,7 +74,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
 
         viewModel.noteBook.observe(viewLifecycleOwner, Observer { newList ->
             noteList = if (newList.isNotEmpty()) {
-                newList.toList() as MutableList<Note>
+                newList.toMutableList()
             } else {
                 mutableListOf<Note>()
             }
