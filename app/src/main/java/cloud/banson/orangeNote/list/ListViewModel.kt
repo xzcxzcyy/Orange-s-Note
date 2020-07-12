@@ -40,6 +40,12 @@ class ListViewModel(private val database: NoteDatabaseDao, application: Applicat
         }
     }
 
+    private suspend fun update(newNote: Note) {
+        withContext(Dispatchers.IO) {
+            database.update(newNote)
+        }
+    }
+
     private suspend fun getCurrentNote(): Note? {
         return withContext(Dispatchers.IO) {
             database.getCurrentNote()
@@ -55,6 +61,8 @@ class ListViewModel(private val database: NoteDatabaseDao, application: Applicat
             }
             insert(passingNote)
             currentNote.value = getCurrentNote()
+            currentNote.value!!.importance = currentNote.value!!.id
+            update(currentNote.value!!)
             _navigateToDetailsFragment.value = currentNote.value!!.id
         }
     }

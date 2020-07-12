@@ -14,5 +14,8 @@
         <item
             android:id="@+id/option_sortByTitleDescend"
             android:title="@string/string_sort_title_descend" />
+        <item
+            android:id="@+id/option_sortByCustom"
+            android:title="@string/string_sort_custom" />
     </group>
 </menu>

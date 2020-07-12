@@ -13,4 +13,5 @@
     <string name="string_sort_time_descend">最新</string>
     <string name="string_sort_title">按字母升序</string>
     <string name="string_sort_title_descend">按字母降序</string>
+    <string name="string_sort_custom">自定义</string>
 </resources>
