@@ -43,9 +43,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="32dp"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@android:color/primary_text_light"
                     android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -55,18 +55,18 @@
                     tools:text="textViewTitle" />
 
                 <TextView
-                    android:id="@+id/textViewNoteId"
+                    android:id="@+id/textViewItemTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@{}"
-                    android:textSize="18sp"
-                    app:idText="@{note}"
+                    android:layout_marginBottom="16dp"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/textViewDetailsTitle"
+                    app:layout_constraintEnd_toEndOf="@+id/textViewDetailsTitle"
                     app:layout_constraintTop_toBottomOf="@+id/textViewDetailsTitle"
-                    tools:text="noteId" />
+                    app:timeText="@{note}"
+                    tools:text="time" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>

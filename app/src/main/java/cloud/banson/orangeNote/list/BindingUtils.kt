@@ -3,6 +3,7 @@ package cloud.banson.orangeNote.list
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import cloud.banson.orangeNote.database.Note
+import cloud.banson.orangeNote.toDateString
 
 @BindingAdapter("titleText")
 fun TextView.setTitleText(item: Note?) {
@@ -11,9 +12,9 @@ fun TextView.setTitleText(item: Note?) {
     }
 }
 
-@BindingAdapter("idText")
-fun TextView.setIdText(item: Note?) {
+@BindingAdapter("timeText")
+fun TextView.setTimeText(item: Note?) {
     item?.let {
-        text = item.id.toString()
+        text = item.time.toDateString()
     }
 }
