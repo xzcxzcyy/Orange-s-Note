@@ -34,20 +34,7 @@ class DetailsFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dataSource = NoteDatabase.getInstance(application).noteDatabaseDao
 
-//        val fragmentJob = Job()
-//        val uiScope = CoroutineScope(Dispatchers.Main + fragmentJob)
-
         val arguments = DetailsFragmentArgs.fromBundle(requireArguments())
-        /*var currentNote = Note()
-
-        uiScope.launch {
-            withContext(Dispatchers.IO) {
-                currentNote = dataSource.get(arguments.currentNoteId)!!
-                Log.d("InsideOfCoroutine", "received id: " + currentNote.id)
-            }
-        }*/
-
-        /*Log.d("DetailsFragment", "received id: " + currentNote.id)*/
 
         val viewModelFactory =
             DetailsViewModelFactory(dataSource, application, arguments.currentNoteId)
