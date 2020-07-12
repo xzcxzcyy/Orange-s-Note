@@ -2,10 +2,7 @@ package cloud.banson.orangeNote.database
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
 interface NoteDatabaseDao {
@@ -14,6 +11,9 @@ interface NoteDatabaseDao {
 
     @Update
     fun update(note: Note)
+
+    @Delete
+    fun delete(note: Note)
 
     @Query("SELECT * FROM note_table WHERE id=:targetId")
     fun get(targetId: Long): Note?

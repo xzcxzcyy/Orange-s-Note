@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import cloud.banson.orangeNote.R
 import cloud.banson.orangeNote.database.Note
 import cloud.banson.orangeNote.database.NoteDatabase
+import cloud.banson.orangeNote.database.NoteDatabaseDao
 import cloud.banson.orangeNote.databinding.FragmentListBinding
+import kotlinx.coroutines.*
 
 class ListFragment : Fragment(), OnItemTouchCallBackListener {
     companion object {
@@ -28,6 +30,11 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
     lateinit var adapter: NoteAdapter
     lateinit var myMenu: Menu
 
+    lateinit var database: NoteDatabaseDao
+
+    private var listFragmentJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + listFragmentJob)
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +48,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
         val application = requireNotNull(this.activity).application
 
         val dataSource = NoteDatabase.getInstance(application).noteDatabaseDao
+        database = dataSource
 
         val viewModelFactory = ListViewModelFactory(dataSource, application)
 
@@ -115,6 +123,11 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
         sortOption = sortByCustom
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        listFragmentJob.cancel()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         myMenu = menu
@@ -176,16 +189,31 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
 
             onCustomSortSelected()
             updateNow(noteList, adapter)
-            //TODO("Access database by coroutine.")
+
+            uiScope.launch {
+                withContext(Dispatchers.IO) {
+                    for (x in noteList!!) {
+                        database.update(x)
+                    }
+                }
+            }
+
             return true
         }
         return false
     }
 
     override fun onSwipe(itemPosition: Int) {
-        Log.d("ItemHelper", "onSwipe called")
+        //TODO("fix fc when there only exists one item.")
+        val toBeRemovedNote = noteList!![itemPosition]
+
         noteList?.removeAt(itemPosition)
         updateNow(noteList, adapter)
-        //TODO("Access database by coroutine.")
+
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                database.delete(toBeRemovedNote)
+            }
+        }
     }
 }
