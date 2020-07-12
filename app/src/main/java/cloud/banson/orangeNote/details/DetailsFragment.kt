@@ -44,9 +44,6 @@ class DetailsFragment : Fragment() {
         binding.lifecycleOwner = this
         viewModel.navigateToListFragment.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                val imm =
-                    application.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view?.windowToken, 0)
                 this.findNavController()
                     .navigate(DetailsFragmentDirections.actionDetailsFragmentToListFragment())
                 viewModel.doneNavigating()
@@ -66,5 +63,12 @@ class DetailsFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val inputMethodManager =
+            requireNotNull(this.activity).application.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }
