@@ -21,6 +21,7 @@ import kotlinx.coroutines.*
 
 class DetailsFragment : Fragment() {
 
+    private lateinit var viewModel: DetailsViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +39,7 @@ class DetailsFragment : Fragment() {
 
         val viewModelFactory =
             DetailsViewModelFactory(dataSource, application, arguments.currentNoteId)
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(DetailsViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(DetailsViewModel::class.java)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -55,7 +56,7 @@ class DetailsFragment : Fragment() {
                 Snackbar.make(
                     requireActivity().findViewById(android.R.id.content),
                     it,
-                    Snackbar.LENGTH_SHORT // How long to display the message.
+                    Snackbar.LENGTH_LONG
                 ).show()
 
                 viewModel.doneMakeSnackBar()

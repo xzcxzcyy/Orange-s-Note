@@ -62,6 +62,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:gravity="start|top"
+            android:hint="@string/details_details_text_hint"
             android:inputType="textMultiLine"
             android:text="@={viewModel.currentNote.details}"
             app:layout_constraintBottom_toTopOf="@+id/buttonDetailsComplete"

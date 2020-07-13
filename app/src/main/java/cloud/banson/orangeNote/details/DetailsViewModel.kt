@@ -7,6 +7,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import cloud.banson.orangeNote.database.Note
 import cloud.banson.orangeNote.database.NoteDatabaseDao
+import cloud.banson.orangeNote.toDateString
 import kotlinx.coroutines.*
 
 class DetailsViewModel(
@@ -40,20 +41,21 @@ class DetailsViewModel(
     fun onCompleteButtonClicked() {
 
         if (currentNote.value?.title == "") {
-            _makeSnackBar.value = "事件名不能为空！"
-        } else {
-            if (currentNote.value?.details == null) {
-                currentNote.value?.details = ""
-            }
-
-            uiScope.launch {
-                withContext(Dispatchers.IO) {
-                    database.update(currentNote.value!!)
-                }
-            }
-
-            _navigateToListFragment.value = true
+            _makeSnackBar.value = "未输入事件名：将使用默认事件名。"
+            currentNote.value?.title = "新记事@ " + currentNote.value!!.time.toDateString()
         }
+        if (currentNote.value?.details == null) {
+            currentNote.value?.details = ""
+        }
+
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                database.update(currentNote.value!!)
+            }
+        }
+
+        _navigateToListFragment.value = true
+
     }
 
     val navigateToListFragment: LiveData<Boolean>
