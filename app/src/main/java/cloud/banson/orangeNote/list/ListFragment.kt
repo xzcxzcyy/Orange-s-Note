@@ -206,7 +206,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
     }
 
     override fun onSwipe(itemPosition: Int) {
-        //TODO("fix fc when there only exists one item.")
+
         val toBeRemovedNote = noteList!![itemPosition]
 
         noteList?.removeAt(itemPosition)
