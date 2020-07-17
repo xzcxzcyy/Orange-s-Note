@@ -34,6 +34,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="@string/details_edit_text_hint"
+            android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:text="@={viewModel.currentNote.title}"
             app:layout_constraintBaseline_toBaselineOf="@+id/textViewDetailsTitle"
@@ -63,6 +64,7 @@
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/details_details_text_hint"
+            android:importantForAutofill="no"
             android:inputType="textMultiLine"
             android:text="@={viewModel.currentNote.details}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +91,8 @@
             android:text="@string/switch_details_alarm_text"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDetailsDetails" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextDetailsDetails"
+            app:switchState="@{viewModel.currentNote}" />
 
         <Button
             android:id="@+id/buttonAlarmDate"
@@ -97,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:visibility="gone"
+            app:buttonVisibleControl="@{viewModel.currentNote}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switchAlarm"
             tools:visibility="visible" />
@@ -108,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:visibility="gone"
+            app:buttonVisibleControl="@{viewModel.currentNote}"
             app:layout_constraintStart_toEndOf="@+id/buttonAlarmDate"
             app:layout_constraintTop_toBottomOf="@+id/switchAlarm"
             tools:visibility="visible" />

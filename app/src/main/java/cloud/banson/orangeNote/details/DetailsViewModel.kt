@@ -38,6 +38,12 @@ class DetailsViewModel(
         currentNote.addSource(database.getNoteById(currentNoteId), currentNote::setValue)
     }
 
+    suspend fun update(newNote: Note) {
+        withContext(Dispatchers.IO) {
+            database.update(newNote)
+        }
+    }
+
     fun onCompleteButtonClicked() {
 
         if (currentNote.value?.title == "") {
@@ -49,9 +55,7 @@ class DetailsViewModel(
         }
 
         uiScope.launch {
-            withContext(Dispatchers.IO) {
-                database.update(currentNote.value!!)
-            }
+            update(currentNote.value!!)
         }
 
         _navigateToListFragment.value = true
@@ -72,4 +76,14 @@ class DetailsViewModel(
         _makeSnackBar.value = null
     }
 
+    fun switchStatusChanged(status: Boolean) {
+        uiScope.launch {
+            if (status) {
+                currentNote.value!!.alarmTime = 0
+            } else {
+                currentNote.value!!.alarmTime = -1
+            }
+            update(currentNote.value!!)
+        }
+    }
 }

@@ -19,5 +19,8 @@ data class Note(
     var time: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "importance")
-    var importance: Long = 0
+    var importance: Long = 0,
+
+    @ColumnInfo(name = "alarm_time")
+    var alarmTime: Long = -1
 )
