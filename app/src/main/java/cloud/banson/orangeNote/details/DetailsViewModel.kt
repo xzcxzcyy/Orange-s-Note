@@ -1,13 +1,12 @@
 package cloud.banson.orangeNote.details
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import cloud.banson.orangeNote.database.Note
 import cloud.banson.orangeNote.database.NoteDatabaseDao
+import cloud.banson.orangeNote.toDateString
 import cloud.banson.orangeNote.toDateTimeString
+import cloud.banson.orangeNote.toTimeString
 import kotlinx.coroutines.*
 
 class DetailsViewModel(
@@ -24,12 +23,13 @@ class DetailsViewModel(
         viewModelJob.cancel()
     }
 
-    var noteBook = database.getAllNotes()
-
-//    var title = MutableLiveData<String>()
-//    var details = MutableLiveData<String>()
-
     val currentNote = MediatorLiveData<Note>()
+    val alarmDate = Transformations.map(currentNote) { currentNote ->
+        currentNote.alarmTime.toDateString()
+    }
+    val alarmTime = Transformations.map(currentNote) { currentNote ->
+        currentNote.alarmTime.toTimeString()
+    }
 
     private val _navigateToListFragment = MutableLiveData<Boolean>()
     private val _makeSnackBar = MutableLiveData<String>()

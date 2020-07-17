@@ -20,19 +20,8 @@ fun Switch.setCheckStatus(note: Note?) {
 @BindingAdapter("buttonVisibleControl")
 fun Button.setVisibility(note: Note?) {
     note?.let {
-        val calendarNow = Calendar.getInstance()
-        val dateString: String =
-            calendarNow.get(Calendar.YEAR).toString() + "年" +
-                    calendarNow.get(Calendar.MONTH).toString() + "月" +
-                    calendarNow.get(Calendar.DAY_OF_MONTH).toString() + "日"
-
         if (note.alarmTime >= 0) {
             this.visibility = View.VISIBLE
-            if (this.id == R.id.buttonAlarmDate) {
-                this.text = note.alarmTime.toDateString()
-            } else if (this.id == R.id.buttonAlarmTime) {
-                this.text = note.alarmTime.toTimeString()
-            }
         } else {
             this.visibility = View.GONE
         }
