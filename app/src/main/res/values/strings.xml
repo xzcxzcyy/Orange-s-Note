@@ -15,4 +15,5 @@
     <string name="string_sort_title_descend">按字母降序</string>
     <string name="string_sort_custom">自定义</string>
     <string name="details_details_text_hint">在这里描述事件（可选）...</string>
+    <string name="switch_details_alarm_text">定时提醒</string>
 </resources>
