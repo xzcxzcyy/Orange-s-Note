@@ -7,7 +7,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import cloud.banson.orangeNote.database.Note
 import cloud.banson.orangeNote.database.NoteDatabaseDao
-import cloud.banson.orangeNote.toDateString
+import cloud.banson.orangeNote.toDateTimeString
 import kotlinx.coroutines.*
 
 class DetailsViewModel(
@@ -48,7 +48,7 @@ class DetailsViewModel(
 
         if (currentNote.value?.title == "") {
             _makeSnackBar.value = "未输入事件名：将使用默认事件名。"
-            currentNote.value?.title = "新记事@ " + currentNote.value!!.time.toDateString()
+            currentNote.value?.title = "新记事@ " + currentNote.value!!.time.toDateTimeString()
         }
         if (currentNote.value?.details == null) {
             currentNote.value?.details = ""
@@ -79,7 +79,7 @@ class DetailsViewModel(
     fun switchStatusChanged(status: Boolean) {
         uiScope.launch {
             if (status) {
-                currentNote.value!!.alarmTime = 0
+                currentNote.value!!.alarmTime = System.currentTimeMillis()
             } else {
                 currentNote.value!!.alarmTime = -1
             }
