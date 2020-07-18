@@ -2,7 +2,10 @@ package cloud.banson.orangeNote.details
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Intent
+import android.provider.CalendarContract
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.*
 import cloud.banson.orangeNote.database.Note
 import cloud.banson.orangeNote.database.NoteDatabaseDao
@@ -11,6 +14,7 @@ import cloud.banson.orangeNote.toDateTimeString
 import cloud.banson.orangeNote.toTimeString
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
+import java.util.*
 
 class DetailsViewModel(
     private val database: NoteDatabaseDao,
@@ -38,6 +42,7 @@ class DetailsViewModel(
     private val _makeSnackBar = MutableLiveData<String>()
     private val _makeTimePicker = MutableLiveData<Boolean>()
     private val _makeDatePicker = MutableLiveData<Boolean>()
+    private val _addToSysCalendar = MutableLiveData<Note>()
 
     init {
         currentNote.addSource(database.getNoteById(currentNoteId), currentNote::setValue)
@@ -63,12 +68,18 @@ class DetailsViewModel(
             update(currentNote.value!!)
         }
 
+        if (currentNote.value!!.title != "" && currentNote.value!!.alarmTime > 0) {
+            _addToSysCalendar.value = currentNote.value
+        }
         _navigateToListFragment.value = true
 
     }
 
     val navigateToListFragment: LiveData<Boolean>
         get() = _navigateToListFragment
+
+    val addToSysCalendar: LiveData<Note>
+        get() = _addToSysCalendar
 
     val makeSnackBar: LiveData<String>
         get() = _makeSnackBar
@@ -139,5 +150,9 @@ class DetailsViewModel(
 
     fun onDateClick() {
         _makeDatePicker.value = true
+    }
+
+    fun doneAddSysCalendar() {
+        _addToSysCalendar.value = null
     }
 }
