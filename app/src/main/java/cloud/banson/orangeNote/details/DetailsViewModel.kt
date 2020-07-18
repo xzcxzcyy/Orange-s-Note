@@ -125,6 +125,7 @@ class DetailsViewModel(
             val monthOfYearString = String.format("%02d", monthOfYear)
             val dayOfMonthString = String.format("%02d", dayOfMonth)
             val formattedTime = "$yearString-$monthOfYearString-$dayOfMonthString-$timeString"
+            Log.d("DetailsViewModel", "doneDateClick: $monthOfYear")
             val unix = SimpleDateFormat("yyyy-MM-dd-HH-mm").parse(formattedTime)?.time
             currentNote.value!!.alarmTime = unix!!
             update(currentNote.value!!)

@@ -103,6 +103,6 @@ class DetailsFragment : Fragment(), TimePickerDialog.OnTimeSetListener,
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        viewModel.doneDateClick(year, monthOfYear, dayOfMonth)
+        viewModel.doneDateClick(year, monthOfYear + 1, dayOfMonth)
     }
 }
