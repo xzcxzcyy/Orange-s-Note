@@ -21,6 +21,11 @@ fun Switch.setCheckStatus(note: Note?) {
 fun Button.setVisibility(note: Note?) {
     note?.let {
         if (note.alarmTime >= 0) {
+            if (this.id == R.id.buttonAlarmDate) {
+                this.text = note.alarmTime.toDateString()
+            } else if (this.id == R.id.buttonAlarmTime) {
+                this.text = note.alarmTime.toTimeString()
+            }
             this.visibility = View.VISIBLE
         } else {
             this.visibility = View.GONE

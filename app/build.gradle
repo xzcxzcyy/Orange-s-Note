@@ -7,6 +7,14 @@ apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion 29
+
+    // Configure only for each module that uses Java 8
+    // language features (either in its source code or
+    // through dependencies).
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     dataBinding {
         enabled = true
     }
@@ -61,4 +69,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    // Material Date Time Picker
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 }

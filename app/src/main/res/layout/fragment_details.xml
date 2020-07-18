@@ -100,7 +100,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="@{viewModel.alarmDate}"
+            android:onClick="@{()->viewModel.onDateClick()}"
+
             app:buttonVisibleControl="@{viewModel.currentNote}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switchAlarm"
@@ -112,7 +113,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="@{viewModel.alarmTime}"
+            android:onClick="@{()->viewModel.onTimeClick()}"
+
             app:buttonVisibleControl="@{viewModel.currentNote}"
             app:layout_constraintStart_toEndOf="@+id/buttonAlarmDate"
             app:layout_constraintTop_toBottomOf="@+id/switchAlarm"
