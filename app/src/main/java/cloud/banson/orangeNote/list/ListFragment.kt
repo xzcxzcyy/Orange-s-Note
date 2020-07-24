@@ -27,6 +27,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
         private const val TAG = "ListFragment"
     }
 
+    private var updateLockByClearView = false
     private var noteList: MutableList<Note>? = null
     private var sortOption = sortByTimeDescend
     lateinit var adapter: NoteAdapter
@@ -81,8 +82,10 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
             } else {
                 mutableListOf<Note>()
             }
+            if (!updateLockByClearView) {
+                updateNow(noteList, adapter)
+            }
 
-            updateNow(noteList, adapter)
         })
 
         setHasOptionsMenu(true)
@@ -215,11 +218,14 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
     override fun clearView() {
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                for (x in noteList!!) {
-                        Log.d(TAG, "onMove: Database is being updated.")
+                val myList = noteList?.toList()
+                updateLockByClearView = true
+                for (x in myList!!) {
+                    Log.d(TAG, "onMove: Database is being updated.")
                     database.update(x)
-                        Log.d(TAG, "onMove: Database updated")
+                    Log.d(TAG, "onMove: Database updated")
                 }
+                updateLockByClearView = false
             }
         }
     }
