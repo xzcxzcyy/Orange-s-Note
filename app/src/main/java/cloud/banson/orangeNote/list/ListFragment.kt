@@ -75,6 +75,7 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
         binding.noteList.adapter = adapter
 
         viewModel.noteBook.observe(viewLifecycleOwner, Observer { newList ->
+            Log.d(TAG, "onMove: onCreateView: noteBook changes observed.")
             noteList = if (newList.isNotEmpty()) {
                 newList.toMutableList()
             } else {
@@ -192,14 +193,6 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
             onCustomSortSelected()
             updateNow(noteList, adapter)
 
-            uiScope.launch {
-                withContext(Dispatchers.IO) {
-                    for (x in noteList!!) {
-                        database.update(x)
-                    }
-                }
-            }
-
             return true
         }
         return false
@@ -215,6 +208,18 @@ class ListFragment : Fragment(), OnItemTouchCallBackListener {
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 database.delete(toBeRemovedNote)
+            }
+        }
+    }
+
+    override fun clearView() {
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                for (x in noteList!!) {
+                        Log.d(TAG, "onMove: Database is being updated.")
+                    database.update(x)
+                        Log.d(TAG, "onMove: Database updated")
+                }
             }
         }
     }

@@ -36,6 +36,11 @@ class ItemHelperCallback(private val onItemTouchCallbackListener: OnItemTouchCal
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         onItemTouchCallbackListener.onSwipe(viewHolder.adapterPosition)
     }
+
+    override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+        super.clearView(recyclerView, viewHolder)
+        onItemTouchCallbackListener.clearView()
+    }
 }
 
 interface OnItemTouchCallBackListener {
@@ -43,4 +48,6 @@ interface OnItemTouchCallBackListener {
     fun onMove(sourcePosition: Int, targetPosition: Int): Boolean
 
     fun onSwipe(itemPosition: Int)
+
+    fun clearView()
 }
